@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="login-panel col-md-4 col-md-offset-4 text-center">
-    {!! app_logo_image() !!}
+    <img style="width: 100px" src="{{ asset('assets/imgs/codesinc_logo.png') }}" alt="User Icon">
     <h3>{{ config('app.name') }}</h3>
     <div class="panel panel-default">
         <div class="panel-body">

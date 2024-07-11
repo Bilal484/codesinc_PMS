@@ -234,7 +234,7 @@ function app_logo_image($attributes = [])
  */
 function app_logo_path()
 {
-    $defaultLogoImagePath = 'codesinc.jpg';
+    $defaultLogoImagePath = 'codesinc_logo.png';
     $optionLogoImagePath = Option::get('agency_logo_path');
 
     if (is_file(storage_path('app/public/assets/imgs/'.$optionLogoImagePath))) {

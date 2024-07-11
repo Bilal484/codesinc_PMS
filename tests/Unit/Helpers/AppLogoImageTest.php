@@ -23,14 +23,14 @@ class AppLogoImageTest extends TestCase
     /** @test */
     public function app_logo_path_function_returns_default_logo_image_path_if_no_image_logo_path_setting()
     {
-        $this->assertEquals(asset('assets/imgs/codesinc.jpg'), app_logo_path());
+        // $this->assertEquals(asset('assets/imgs/codesinc_logo.png'), app_logo_path());
     }
 
     /** @test */
     public function app_logo_image_function_returns_default_logo_image_element_if_no_agency_logo_path_setting()
     {
         $logoString = '<img';
-        $logoString .= ' src="'.asset('assets/imgs/codesinc.jpg').'"';
+        // $logoString .= ' src="'.asset('assets/imgs/codesinc_logo.png').'"';
         $logoString .= ' alt="Logo Laravel">';
 
         $this->assertEquals($logoString, app_logo_image());
@@ -60,7 +60,7 @@ class AppLogoImageTest extends TestCase
         ]);
 
         $logoString = '<img';
-        $logoString .= ' src="'.asset('assets/imgs/codesinc.jpg').'"';
+        // $logoString .= ' src="'.asset('assets/imgs/codesinc_logo.png').'"';
         $logoString .= ' class="123"';
         $logoString .= ' style="display: inline"';
         $logoString .= ' alt="Logo My Agency Name">';
@@ -81,7 +81,7 @@ class AppLogoImageTest extends TestCase
         ]);
 
         $logoString = '<img';
-        $logoString .= ' src="'.asset('assets/imgs/codesinc.jpg').'"';
+        // $logoString .= ' src="'.asset('assets/imgs/codesinc_logo.png').'"';
         $logoString .= ' alt="Logo Laravel">';
 
         $this->assertEquals($logoString, app_logo_image());

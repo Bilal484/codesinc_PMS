@@ -35,6 +35,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+
         $this->middleware('guest', ['except' => 'logout']);
     }
 
@@ -53,7 +54,7 @@ class LoginController extends Controller
         flash(__('auth.welcome', ['name' => $request->user()->name]));
 
         return $this->authenticated($request, $this->guard()->user())
-        ?: redirect()->intended($this->redirectPath());
+            ?: redirect()->intended($this->redirectPath());
     }
 
     /**
