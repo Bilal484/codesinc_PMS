@@ -1,45 +1,37 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
     "type": "project",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "https://github.com/nafiesl/backup-manager-laravel"
-        }
-    ],
+    "description": "The skeleton application for the Laravel framework.",
+    "keywords": ["laravel", "framework"],
+    "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
-        "backup-manager/laravel": "dev-php_8_support",
-        "fideloper/proxy": "^4.0",
-        "laracasts/presenter": "^0.2.1",
-        "laravel/framework": "^8.0",
-        "laravel/ui": "^3.0",
-        "luthfi/formfield": "1.*",
-        "riskihajar/terbilang": "^1.2",
-        "spatie/laravel-fractal": "^5.0"
+        "php": "^8.2",
+        "bezhansalleh/filament-shield": "^3.2",
+        "filament/filament": "^3.2",
+        "laravel/framework": "^11.31",
+        "laravel/tinker": "^2.9",
+        "nwidart/laravel-modules": "^11.0",
+        "spatie/laravel-activitylog": "^4.8",
+        "spatie/laravel-medialibrary": "^11.0"
     },
-
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.1",
-        "brianium/paratest": "^6.2",
-        "fakerphp/faker": "^1.4",
-        "johnkary/phpunit-speedtrap": "^3.0",
-        "laravel/legacy-factories": "^1.1",
-        "luthfi/simple-crud-generator": "^1.6",
-        "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^5.3",
-        "phpunit/phpunit": "^9.0"
+        "fakerphp/faker": "^1.23",
+        "laravel/pail": "^1.1",
+        "laravel/pint": "^1.13",
+        "laravel/sail": "^1.26",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.1",
+        "phpunit/phpunit": "^11.0.1"
     },
     "autoload": {
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Modules\\Projects\\": "Modules/Projects/app/",
+            "Modules\\Projects\\Database\\Factories\\": "Modules/Projects/database/factories/",
+            "Modules\\Projects\\Database\\Seeders\\": "Modules/Projects/database/seeders/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
@@ -47,30 +39,48 @@
             "Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "dont-discover": [
-            ]
-        }
-    },
     "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate"
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
         ],
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover"
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ]
     },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        },
+        "merge-plugin": {
+            "include": [
+                "Modules/*/composer.json"
+            ]
+        }
+    },
     "config": {
+        "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true,
-        "process-timeout": 600
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "wikimedia/composer-merge-plugin": true
+        }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
